@@ -17,7 +17,8 @@ The goal of this project is to demonstrate how to use embedded Debezium to captu
 - obtain CDC source records from a given database (PostgreSQL / MySQL)
 - produce messages based on source record which contains the changed database name, the schema name(PostgreSQL specific, MySQL will be blank) and the table's name to topic `table-change`.
 - produce "offsets" that define how much of the information the application has processed as a message to topic `debezium-connector-offset`. 
-When the application restarts, it will use the last recorded offset to know where in the source information it should resume reading.  
+When the application restarts, it will use the last recorded offset to know where in the source information it should resume reading. 
+- (only for MySQL) produce databse history to topic `dbz-history`.
 - consume meesage from `table-change` topic and print into the stdout.
 
 ## Start environment and Run application
