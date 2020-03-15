@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.errors.DataException;
 import org.apache.kafka.connect.source.SourceRecord;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +25,15 @@ public class CDCListener {
 
   private final KafkaTemplate<String, Message> kafkaTemplate;
 
-  @Autowired
-  TableChangeTopicConfig tableChangeTopicConfig;
+  private TableChangeTopicConfig tableChangeTopicConfig;
 
   @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-  private CDCListener(Configuration connector, KafkaTemplate<String, Message> kafkaTemplate) {
+  private CDCListener(Configuration connector, KafkaTemplate<String, Message> kafkaTemplate, TableChangeTopicConfig tableChangeTopicConfig) {
     this.engine = EmbeddedEngine.create()
         .using(connector)
         .notifying(this::handleEvent).build();
     this.kafkaTemplate = kafkaTemplate;
+    this.tableChangeTopicConfig = tableChangeTopicConfig;
   }
 
   @PostConstruct
